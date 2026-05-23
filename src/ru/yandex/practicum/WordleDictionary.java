@@ -47,7 +47,7 @@ public class WordleDictionary {
         for (int i = 0; i < answer.length() - 1; i++) {
             for (int o = 0; o < answer.length(); o++) {
                 if (answer.charAt(i) == guess.charAt(o) && result.charAt(o) != '+' && result.charAt(i) != '+') {
-                    result.replace(i,i+1,"^");
+                    result.replace(i,i + 1,"^");
                 }
             }
         }
