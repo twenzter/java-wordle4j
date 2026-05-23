@@ -2,14 +2,12 @@ package ru.yandex.practicum;
 
 public class NoSuchWordLength extends RuntimeException {
 
-    private final String message;
-
     NoSuchWordLength(String message) {
-        this.message = message;
+        super(message);
     }
 
     @Override
     public String getMessage() {
-        return message;
+        return super.getMessage();
     }
 }
