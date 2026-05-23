@@ -11,7 +11,9 @@ import java.util.*;
  */
 public class WordleDictionaryLoader {
 
-    private WordleDictionaryLoader() {}
+    private WordleDictionaryLoader() {
+        
+    }
 
     public static WordleDictionary createWordleDictionary(PrintWriter logWriter) throws IOException {
 
