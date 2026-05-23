@@ -1,6 +1,7 @@
 package ru.yandex.practicum;
 
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /*
 этот класс содержит в себе список слов List<String>
@@ -10,5 +11,60 @@ import java.util.List;
 public class WordleDictionary {
 
     private List<String> words;
+
+    PrintWriter logWriter;
+
+    public WordleDictionary(List<String> words, PrintWriter logWriter) {
+        this.words = words;
+        this.logWriter = logWriter;
+
+    }
+
+    public List<String> getWords() {
+        return words;
+    }
+
+    public int size() {
+        return words.size();
+    }
+
+
+    public String compareGuessWithAnswer(String guess, String answer) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < answer.length(); i++) {
+            if (answer.charAt(i) == guess.charAt(i)) {
+                filterWords(i, answer);
+                result.append("+");
+            } else {
+                result.append(guess.charAt(i));
+            }
+        }
+
+        for (int i = 0; i < answer.length() - 1; i++) {
+            for (int o = i+1; o < answer.length(); o++) {
+                if (answer.charAt(i) == guess.charAt(o) && result.charAt(o) != '+' && result.charAt(i) != '+') {
+                    result.replace(o,o+1,"^");
+                }
+            }
+        }
+
+        for (int i = 0; i < answer.length(); i++) {
+            if (result.charAt(i) != '+' && result.charAt(i) != '^') {
+                result.replace(i,i+1,"-");
+            }
+        }
+
+        return result.toString();
+    }
+
+    private void filterWords(int index, String answer) {
+        List<String> newWords = new ArrayList<>();
+        for (String word: words) {
+            if (word.charAt(index) == answer.charAt(index)) {
+                newWords.add(word);
+            }
+        }
+        words = newWords;
+    }
 
 }
