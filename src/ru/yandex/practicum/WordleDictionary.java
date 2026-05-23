@@ -55,7 +55,7 @@ public class WordleDictionary {
         int lastInvalidIndex = -1;
         for (int i = 0; i < answer.length(); i++) {
             if (result.charAt(i) != '+' && result.charAt(i) != '^') {
-                result.replace(i,i+1,"-");
+                result.replace(i,i + 1,"-");
                 lastInvalidIndex = i;
             }
         }
