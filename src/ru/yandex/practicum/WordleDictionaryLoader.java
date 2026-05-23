@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class WordleDictionaryLoader {
 
-    private WordleDictionaryLoader(PrintWriter logWriter) {}
+    private WordleDictionaryLoader() {}
 
     public static WordleDictionary createWordleDictionary(PrintWriter logWriter) throws IOException {
 
@@ -24,7 +24,7 @@ public class WordleDictionaryLoader {
                 if (bufferedLine.isBlank()) {
                     break;
                 }
-                if (bufferedLine.length() != 5) {
+                if (bufferedLine.length() != Wordle.WORD_LENGTH) {
                     continue;
                 }
                 String result = formatingWord(bufferedLine);
@@ -37,14 +37,7 @@ public class WordleDictionaryLoader {
         }
     }
 
-    private static String formatingWord(String line) {
-        StringBuilder word = new StringBuilder(line);
-        int indexForChanging = word.indexOf("ё");
-        while (indexForChanging != -1) {
-            word.setCharAt(indexForChanging,'е');
-            indexForChanging = word.indexOf("ё");
-        }
-
-        return word.toString().trim().toLowerCase();
+    public static String formatingWord(String line) {
+        return line.trim().toLowerCase().replace('ё','е');
     }
 }

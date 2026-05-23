@@ -17,71 +17,45 @@ import java.util.*;
  */
 public class WordleGame {
 
-    private static final int WORD_LENGTH = 5;
-    private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
 
     private final PrintWriter logWriter;
+
     private WordleDictionary dictionary;
     private String answer;
     private int steps;
 
 
-    public WordleGame(PrintWriter logWriter) throws IOException {
+    public WordleGame(PrintWriter logWriter)  {
         this.logWriter = logWriter;
     }
 
-    public void startGame() throws IOException {
+    public void startGame() throws IOException  {
         dictionary = WordleDictionaryLoader.createWordleDictionary(logWriter);
+        answer = getRandomWord(dictionary.getWords());
         steps = 0;
-
-        answer = getRandomWord();
-
-        PrintMenu();
     }
 
-    public void PrintMenu() {
 
-        System.out.println("Начало игры!\n");
-        System.out.println("===WORDLY===");
-
-        while (true) {
-            String guess = scanner.nextLine();
-            if (guess.isEmpty()) {
-                String clue = getRandomWord();
-                System.out.println(clue);
-                guess = clue;
-            }
-            if (guess.length() != WORD_LENGTH) {
-                System.out.println("Длина отгадываемого слова должна быть ровно 5 символов");
-                continue;
-            }
-            if (!dictionary.getWords().contains(guess)) {
-                System.out.println("Слова нет в словаре");
-                continue;
-            }
-
-            System.out.println(dictionary.compareGuessWithAnswer(guess, answer));
-            steps++;
-
-            if (steps == 6) {
-                System.out.println("Вы проиграли!");
-                System.out.println("Правильное слово - " + answer);
-                System.out.println("Затрачено попыток - " + steps);
-                break;
-            }
-            if (answer.equals(guess)) {
-                System.out.println("Вы выиграли!");
-                System.out.println("Затрачено попыток - " + steps);
-                break;
-            }
-        }
-
-    }
-
-    public String getRandomWord() {
-        int dictionarySize = dictionary.size();
+    public String getRandomWord(List<String> wordsList) {
+        int dictionarySize = wordsList.size();
         int randomWordIndex = random.nextInt(dictionarySize);
-        return dictionary.getWords().get(randomWordIndex);
+        return wordsList.get(randomWordIndex);
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public WordleDictionary getDictionary() {
+        return dictionary;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
     }
 }

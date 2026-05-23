@@ -1,10 +1,10 @@
 package ru.yandex.practicum;
 
-public class WordNotFoundInDictionary extends RuntimeException {
+public class NoSuchWordLength extends RuntimeException {
 
     private final String message;
 
-    WordNotFoundInDictionary(String message) {
+    NoSuchWordLength(String message) {
         this.message = message;
     }
 
