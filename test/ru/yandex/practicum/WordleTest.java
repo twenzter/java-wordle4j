@@ -1,7 +1,61 @@
 package ru.yandex.practicum;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 class WordleTest {
+
+    public static WordleGame wordleGame;
+    public static WordleDictionary wordleDictionary;
+    public static PrintWriter logWriter;
+
+    @BeforeAll
+    public static void beforeAll() throws IOException {
+        logWriter = new PrintWriter(new FileWriter("log.txt",StandardCharsets.UTF_8, true));
+
+        wordleDictionary = WordleDictionaryLoader.createWordleDictionary(logWriter);
+
+        wordleGame = new WordleGame(logWriter);
+        wordleGame.startGame();
+    }
+
+    @Test
+    public void checkGetRandomWord() {
+        String word = wordleGame.getRandomWord(wordleGame.getDictionary().getWords());
+        Assertions.assertTrue(wordleGame.getDictionary().getWords().contains(word));
+    }
+
+    @Test
+    public void checkFormatingWord() {
+        String word = "ЁЖиК";
+        word = WordleDictionaryLoader.formatingWord(word);
+        Assertions.assertEquals("ежик",word);
+    }
+
+    @Test
+    public void checkCreateWordleDictionary() {
+        Assertions.assertTrue(!wordleDictionary.getWords().isEmpty());
+    }
+
+
+    @Test
+    public void checkCompareGuessWithAnswerWithMistakes() {
+        String response = wordleDictionary.compareGuessWithAnswer("герой","гонец");
+        Assertions.assertEquals("+^-^-", response);
+    }
+
+    @Test
+    public void checkCompareGuessWithAnswerFullRight() {
+        String response = wordleDictionary.compareGuessWithAnswer("герой","герой");
+        Assertions.assertEquals("+++++", response);
+    }
+
+    @Test
+    public void checkCompareGuessWithAnswerAbsolutelyNotRight() {
+        String response = wordleDictionary.compareGuessWithAnswer("эллин","герой");
+        Assertions.assertEquals("-----", response);
+    }
 
 }
