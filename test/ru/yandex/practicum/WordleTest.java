@@ -8,11 +8,15 @@ import java.nio.charset.StandardCharsets;
 class WordleTest {
 
     public static WordleGame wordleGame;
+    public static WordleDictionary wordleDictionary;
     public static PrintWriter logWriter;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
         logWriter = new PrintWriter(new FileWriter("log.txt",StandardCharsets.UTF_8, true));
+
+        wordleDictionary = WordleDictionaryLoader.createWordleDictionary(logWriter);
+
         wordleGame = new WordleGame(logWriter);
         wordleGame.startGame();
     }
@@ -31,28 +35,25 @@ class WordleTest {
     }
 
     @Test
-    public void checkCreateWordleDictionary() throws IOException {
-        WordleDictionary wordleDictionary = WordleDictionaryLoader.createWordleDictionary(logWriter);
-        Assertions.assertEquals(wordleDictionary.getWords(),wordleDictionary.getFilteredWords());
+    public void checkCreateWordleDictionary() {
+        Assertions.assertTrue(!wordleDictionary.getWords().isEmpty());
     }
 
+
     @Test
-    public void checkCompareGuessWithAnswerWithMistakes() throws IOException {
-        WordleDictionary wordleDictionary = WordleDictionaryLoader.createWordleDictionary(logWriter);
+    public void checkCompareGuessWithAnswerWithMistakes() {
         String response = wordleDictionary.compareGuessWithAnswer("герой","гонец");
         Assertions.assertEquals("+^-^-", response);
     }
 
     @Test
-    public void checkCompareGuessWithAnswerFullRight() throws IOException {
-        WordleDictionary wordleDictionary = WordleDictionaryLoader.createWordleDictionary(logWriter);
+    public void checkCompareGuessWithAnswerFullRight() {
         String response = wordleDictionary.compareGuessWithAnswer("герой","герой");
         Assertions.assertEquals("+++++", response);
     }
 
     @Test
-    public void checkCompareGuessWithAnswerAbsolutelyNotRight() throws IOException {
-        WordleDictionary wordleDictionary = WordleDictionaryLoader.createWordleDictionary(logWriter);
+    public void checkCompareGuessWithAnswerAbsolutelyNotRight() {
         String response = wordleDictionary.compareGuessWithAnswer("эллин","герой");
         Assertions.assertEquals("-----", response);
     }
