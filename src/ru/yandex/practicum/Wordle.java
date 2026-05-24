@@ -18,7 +18,9 @@ public class Wordle {
             wordleGame.startGame();
             printMenu(wordleGame);
         } catch (IOException e) {
-            System.out.println("Ошибка в обработке файлов");
+            System.out.println("Ошибка в работе с файлами: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 

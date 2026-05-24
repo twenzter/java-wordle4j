@@ -74,10 +74,11 @@ public class WordleDictionary {
             }
             filteredWords = newWords;
         } else {
-            for (int i = 0; i < filteredWords.size(); i++) {
+            for (int i = 0; i < filteredWords.size(); ) {
                 if (index != -1 && filteredWords.get(i).charAt(index) != answer.charAt(index)) {
                     filteredWords.remove(i);
-                    i--;
+                } else {
+                    i++;
                 }
             }
         }
